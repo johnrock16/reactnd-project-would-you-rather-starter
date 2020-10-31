@@ -34,11 +34,13 @@ const HomeScreen=()=>{
             questions[item]
         ));
 
-        setState((pv)=>({...pv,unAnsweredQuestions:unAnsweredQuestions,answeredQuestions:answeredQuestions}))
-        // userContext.setUser(users[mapusers[0]]);
+        console.log(userContext.user);
+
+        setState((pv)=>({...pv,unAnsweredQuestions:unAnsweredQuestions,answeredQuestions:answeredQuestions}));
     }
 
-    const handleOnQuestion=()=>{
+    const handleOnQuestion=(item,toAnswer)=>{
+        userContext.setQuestion({...item,toAnswer});
         history.push('/answer')
     }
 
@@ -57,7 +59,7 @@ const HomeScreen=()=>{
                 {
                     (typeof unAnsweredQuestions!=='undefined' && unAnsweredQuestions.length>0) &&(
                         unAnsweredQuestions.map((item)=>(
-                            <CardHome author={item.author} option={item.optionOne.text} onGo={handleOnQuestion}/>
+                            <CardHome author={item.author} option={item.optionOne.text} onGo={()=>handleOnQuestion(item,true)}/>
                         ))
                     )
                 }
@@ -67,7 +69,7 @@ const HomeScreen=()=>{
                 {
                     (typeof answeredQuestions!=='undefined' && answeredQuestions.length>0) &&(
                         answeredQuestions.map((item)=>(
-                            <CardHome author={item.author} option={item.optionOne.text}/>
+                            <CardHome author={item.author} option={item.optionOne.text} onGo={()=>handleOnQuestion(item,false)}/>
                         ))
                     )
                 }
