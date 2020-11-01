@@ -36,12 +36,6 @@ const SignInScreen= ()=>{
     React.useEffect(()=>{
         getUsers()
     },[])
-    // React.useEffect(()=>{
-    //     console.log(state)
-    // },[state])
-    React.useEffect(()=>{
-        console.log('context',userContext)
-    },[userContext])
     return(
         <div style={{display:'flex',flex:1,justifyContent:'center'}}>
             <div style={{ border:'solid',borderWidth:1,}}>

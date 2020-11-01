@@ -1,43 +1,29 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext,useReducer } from 'react';
 import { useHistory } from 'react-router-dom';
+import { UserReducer, userReducerDefaultValue } from '../reducer/UserReducer';
 
-const defaultValue={
-    user:{
-        id:'',
-        name:'',
-        avatarURL:'',
-        questions:[],
-        answers:{},
-    },
-    selectedQuestion:{},
-    setUser:()=>{},
-    setQuestion:()=>{},
-    clearUser:()=>{},
-    addAnswer:()=>{},
-}
-
-export const UserContext = createContext(defaultValue);
+export const UserContext = createContext(userReducerDefaultValue);
 
 export const UserContextProvider = ({children})=>{
-    const [state,setState] = useState(defaultValue);
+    const [state,dispatch] = useReducer(UserReducer,userReducerDefaultValue);
     const history= useHistory();
     const {user,selectedQuestion} = state;
 
     const setUser=(newUserData)=>{
-        setState((pv)=>({...pv,user:{...pv.user,...newUserData}}))
+        dispatch({type: 'setUser', payload: newUserData})
     }
 
     const addAnswer=(key,answer)=>{
-        setState((pv)=>({...pv,user:{...pv.user,answers:{...pv.user.answers,[key]:answer}},selectedQuestion:{...pv.selectedQuestion,[answer]:{...pv.selectedQuestion[answer],votes:[...pv.selectedQuestion[answer].votes,user.id]},toAnswer:false}}))
+        dispatch({type: 'addAnswer', payload: {key,answer}})
     }
 
     const clearUser=()=>{
         history.push('/')
-        setState((pv)=>({...pv,user:defaultValue.user}))
+        dispatch({type: 'clearuser'})
     }
 
     const setQuestion=(newQuestion)=>{
-        setState((pv)=>({...pv,selectedQuestion:newQuestion}))
+        dispatch({type: 'setQuestion', payload: newQuestion})
     }
 
     return(

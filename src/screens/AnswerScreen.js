@@ -13,7 +13,6 @@ const AnswerScreen=()=>{
     const userContext = useContext(UserContext);
     const {author,id,optionOne,optionTwo, toAnswer} = userContext.selectedQuestion;
     const totalAnswers=optionOne.votes.length + optionTwo.votes.length;
-    console.log('total',totalAnswers)
 
     const onHandleChange=(event)=> {
         const value=event.target.value;
@@ -23,13 +22,7 @@ const AnswerScreen=()=>{
     const onHandleSubmit=()=>{
         _saveQuestionAnswer({authedUser:userContext.user.id,qid:id,answer:selectedAnswer})
         userContext.addAnswer(id,selectedAnswer);
-        console.log('aqui')
     }
-
-    React.useEffect(()=>{
-        console.log(userContext)
-    },[userContext.selectedQuestion])
-
 
     return(
         <div style={{display:'flex',flex:1,justifyContent:'center'}}>

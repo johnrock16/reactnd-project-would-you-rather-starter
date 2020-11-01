@@ -16,10 +16,7 @@ const HomeScreen=()=>{
     const {answeredQuestions,unAnsweredQuestions} = state;
 
     const getUsers= async()=>{
-        const users=await _getUsers();
-
         const questions=await _getQuestions();
-        const mapusers=Object.keys(users)
         const keysAnswers=Object.keys(userContext.user.answers)
         const keysQuestions=Object.keys(questions)
 
@@ -34,8 +31,6 @@ const HomeScreen=()=>{
             questions[item]
         ));
 
-        console.log(userContext.user);
-
         setState((pv)=>({...pv,unAnsweredQuestions:unAnsweredQuestions,answeredQuestions:answeredQuestions}));
     }
 
@@ -46,11 +41,7 @@ const HomeScreen=()=>{
 
     React.useEffect(()=>{
         getUsers();
-    },[])
-
-    React.useEffect(()=>{
-        console.log(userContext)
-    },[userContext])
+    },[]);
 
     return(
         <div style={{display:'flex',flexDirection:'column',justifyContent:'center',alignItems:'center',flex:1}}>

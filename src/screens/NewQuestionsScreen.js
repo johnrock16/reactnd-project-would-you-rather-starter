@@ -23,8 +23,7 @@ const NewQuestionsScreen=()=>{
     }
 
     const handleNewQuestion=async ()=>{
-        const question =await _saveQuestion({author:userContext.user.id,optionOneText:firstRather,optionTwoText:secondRather})
-        console.log('question',{author:userContext.user.name,optionOneText:firstRather,optionTwoText:secondRather})
+        await _saveQuestion({author:userContext.user.id,optionOneText:firstRather,optionTwoText:secondRather})
     }
 
     return(

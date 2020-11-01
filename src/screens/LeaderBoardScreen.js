@@ -1,5 +1,4 @@
-import React, { useContext, useState } from 'react';
-import { UserContext } from '../context/UserContext';
+import React, { useState } from 'react';
 import { _getUsers } from '../_DATA';
 
 const initialState={
@@ -10,7 +9,6 @@ const initialState={
 const LeaderBoardScreen=()=>{
 
     const [state,setState] = useState(initialState);
-    const userContext = useContext(UserContext);
     const {users,mapusers} = state;
 
     const getUsers= async()=>{
@@ -42,14 +40,14 @@ const UserLeaderBoard=({name,answerNumber,questionNumber})=>(
         <div style={{border:'solid',borderWidth:1,minWidth:300}}>
             <h1 style={{textAlign:'center'}}>{name}</h1>
             <div>
-            <div style={{display:'flex',justifyContent:'space-between'}}>
-                <h4>Answered Questions </h4>
-                <h4>{answerNumber}</h4>
-            </div>
-            <div style={{display:'flex',justifyContent:'space-between'}}>
-                <h4>Created Questions </h4>
-                <h4>{questionNumber}</h4>
-            </div>
+                <div style={{display:'flex',justifyContent:'space-between'}}>
+                    <h4>Answered Questions </h4>
+                    <h4>{answerNumber}</h4>
+                </div>
+                <div style={{display:'flex',justifyContent:'space-between'}}>
+                    <h4>Created Questions </h4>
+                    <h4>{questionNumber}</h4>
+                </div>
             </div>
         </div>
         <div>
