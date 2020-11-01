@@ -28,7 +28,7 @@ const SignInScreen= ()=>{
 
     const onSignUp=()=>{
         if(mapusers.indexOf(selectedUser)>-1){
-            userContext.setUser(users[selectedUser])
+            userContext.userSignIn(users[selectedUser])
             history.push('/home');
         }
     }

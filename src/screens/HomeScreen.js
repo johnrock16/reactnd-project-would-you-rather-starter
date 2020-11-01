@@ -26,16 +26,9 @@ const HomeScreen=()=>{
             const keysAnswers=Object.keys(userContext.user.answers)
             const keysQuestions=Object.keys(questions)
 
-            let unAnsweredQuestions=keysQuestions.filter((item)=>(
-                keysAnswers.indexOf(item)===-1
-            ));
-            unAnsweredQuestions=unAnsweredQuestions.map((item)=>(
-                questions[item]
-            ));
-
-            let answeredQuestions=keysAnswers.map((item)=>(
-                questions[item]
-            ));
+            let unAnsweredQuestions=keysQuestions.filter((item)=>(keysAnswers.indexOf(item)===-1));
+            unAnsweredQuestions=unAnsweredQuestions.map((item)=>(questions[item]));
+            let answeredQuestions=keysAnswers.map((item)=>(questions[item]));
 
             setState((pv)=>({...pv,unAnsweredQuestions:unAnsweredQuestions,answeredQuestions:answeredQuestions}));
         })
@@ -50,8 +43,8 @@ const HomeScreen=()=>{
                 <h1>UnAnswered Questions</h1>
                 {
                     (Object.keys(users).length>0 && typeof unAnsweredQuestions!=='undefined' && unAnsweredQuestions.length>0) &&(
-                        unAnsweredQuestions.map((item)=>(
-                            <CardHome author={item.author} image={users[item.author].avatarURL} option={item.optionOne.text} onGo={()=>handleOnQuestion(item,true,users[item.author].avatarURL)}/>
+                        unAnsweredQuestions.map((item,index)=>(
+                            <CardHome key={`UnAnsweredQuestions${index}`} author={item.author} image={users[item.author].avatarURL} option={item.optionOne.text} onGo={()=>handleOnQuestion(item,true,users[item.author].avatarURL)}/>
                         ))
                     )
                 }
@@ -60,8 +53,8 @@ const HomeScreen=()=>{
                 <h1>Answered Questions</h1>
                 {
                     (Object.keys(users).length>0 && typeof answeredQuestions!=='undefined' && answeredQuestions.length>0) &&(
-                        answeredQuestions.map((item)=>(
-                            <CardHome author={item.author} image={users[item.author].avatarURL} option={item.optionOne.text} onGo={()=>handleOnQuestion(item,false,users[item.author].avatarURL)}/>
+                        answeredQuestions.map((item,index)=>(
+                            <CardHome key={`AnsweredQuestions${index}`} author={item.author} image={users[item.author].avatarURL} option={item.optionOne.text} onGo={()=>handleOnQuestion(item,false,users[item.author].avatarURL)}/>
                         ))
                     )
                 }

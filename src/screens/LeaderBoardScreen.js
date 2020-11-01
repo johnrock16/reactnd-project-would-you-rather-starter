@@ -26,7 +26,7 @@ const LeaderBoardScreen=()=>{
            {
                (typeof mapusers!=='undefined' && mapusers.length>0) && (mapusers.map((item)=>(  
                     <UserLeaderBoard key={users[item].id} name={users[item].name} image={users[item].avatarURL} questionNumber={users[item].questions.length} answerNumber={Object.keys(users[item].answers).length}/>
-                )).sort((a, b) => (Object.keys(users[a.key].answers).length +users[a.key].questions.length> Object.keys(users[b.key].answers).length)+users[b.key].questions.length ? -1 : 1))
+                )).sort((a, b) => ((Object.keys(users[a.key].answers).length +users[a.key].questions.length)>( Object.keys(users[b.key].answers).length)+users[b.key].questions.length) ? -1 : 1))
            }
         </div>
     )

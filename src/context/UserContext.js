@@ -9,8 +9,8 @@ export const UserContextProvider = ({children})=>{
     const history= useHistory();
     const {user,selectedQuestion} = state;
 
-    const setUser=(newUserData)=>{
-        dispatch({type: 'setUser', payload: newUserData})
+    const userSignIn=(newUserData)=>{
+        dispatch({type: 'setUser', payload: {...newUserData,isLogged:true}})
     }
 
     const addAnswer=(key,answer)=>{
@@ -27,7 +27,7 @@ export const UserContextProvider = ({children})=>{
     }
 
     return(
-        <UserContext.Provider value={{user,setUser,clearUser,selectedQuestion,setQuestion,addAnswer}}>
+        <UserContext.Provider value={{user,userSignIn,clearUser,selectedQuestion,setQuestion,addAnswer}}>
             {children}
         </UserContext.Provider>
     )

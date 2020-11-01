@@ -21,6 +21,7 @@ export const userReducerDefaultValue = {
     avatarURL: '',
     questions: [],
     answers: {},
+    isLogged:false,
   },
   selectedQuestion: {},
   setUser: () => { },
