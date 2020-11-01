@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import ProgressBar from '../components/ProgressBar';
 import { UserContext } from '../context/UserContext';
-import { _saveQuestion, _saveQuestionAnswer } from '../_DATA'
+import { _saveQuestionAnswer } from '../_DATA'
 
 const initialState={
     selectedAnswer:'',
@@ -11,7 +11,7 @@ const AnswerScreen=()=>{
     const [state,setState] = useState(initialState);
     const {selectedAnswer} = state;
     const userContext = useContext(UserContext);
-    const {author,id,optionOne,optionTwo, toAnswer} = userContext.selectedQuestion;
+    const {author,id,optionOne,optionTwo, toAnswer,avatarURL} = userContext.selectedQuestion;
     const totalAnswers=optionOne.votes.length + optionTwo.votes.length;
 
     const onHandleChange=(event)=> {
@@ -20,8 +20,12 @@ const AnswerScreen=()=>{
     };
 
     const onHandleSubmit=()=>{
-        _saveQuestionAnswer({authedUser:userContext.user.id,qid:id,answer:selectedAnswer})
-        userContext.addAnswer(id,selectedAnswer);
+        if(selectedAnswer!==''){
+            _saveQuestionAnswer({authedUser:userContext.user.id,qid:id,answer:selectedAnswer})
+            userContext.addAnswer(id,selectedAnswer);
+            return;
+        }
+        alert('Please select one option before submit your answer');
     }
 
     return(
@@ -29,8 +33,8 @@ const AnswerScreen=()=>{
             <div style={{display:'flex',flexDirection:'column', border:'solid',borderWidth:1,justifyContent:'center',alignItems:'center',maxWidth:500}}>
                 <h1>{author}</h1>
                 <div style={{display:'flex'}}>
-                    <div style={{display:'flex',alignItems:'center',justifyContent:'center', border:'solid',borderWidth:1}}>
-                        <div style={{display:'flex',height:150,width:150,borderRadius:120,backgroundImage:'URL("https://cdn.vox-cdn.com/thumbor/PEJ0cEDEGZRndtWvPb334IUEkBc=/0x0:1920x1080/1200x675/filters:focal(761x281:1067x587)/cdn.vox-cdn.com/uploads/chorus_image/image/53744541/Zelda_Switch_21.0.jpg")'}}/>
+                    <div style={{display:'flex',alignItems:'center',justifyContent:'center', border:'solid',borderWidth:1}}>  
+                        <div style={{display:'flex',height:150,width:150,borderRadius:120,backgroundPosition:'center center',backgroundColor:'black',backgroundSize:'cover',backgroundImage:`url(${avatarURL})`}}/>
                     </div>
                     
                     <div style={{border:'solid',borderWidth:1}}>
@@ -47,8 +51,8 @@ const AnswerScreen=()=>{
                         ):(
                             <div>
                                 <h1>Result:</h1>
-                                <AnswerResults text={optionOne.text} partial={optionOne.votes.length} total={totalAnswers}/>
-                                <AnswerResults text={optionTwo.text} partial={optionTwo.votes.length} total={totalAnswers}/>
+                                <AnswerResults isAnswerSelected={optionOne.votes.indexOf(userContext.user.id)>-1} text={optionOne.text} partial={optionOne.votes.length} total={totalAnswers}/>
+                                <AnswerResults isAnswerSelected={optionTwo.votes.indexOf(userContext.user.id)>-1} text={optionTwo.text} partial={optionTwo.votes.length} total={totalAnswers}/>
                             </div>
                         )
                     }
@@ -67,8 +71,8 @@ const RadioButton=({value,text,selected,onChange})=>(
     </div>
 )
 
-const AnswerResults=({text,partial,total})=>(
-    <div style={{border:'solid',borderWidth:1}}>
+const AnswerResults=({text,partial,total,isAnswerSelected})=>(
+    <div style={{border:'solid',borderWidth:1,backgroundColor:isAnswerSelected?'blue':'white'}}>
         <h3>{text}</h3>
         <ProgressBar bgcolor={'#00695c'} completed={partial>0?(100/(total/partial)):0} />
     </div>

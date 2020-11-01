@@ -20,7 +20,7 @@ const Header= ()=>{
             </div>
             {
             (true)&& <div style={{display:'flex',}}>
-                    <Link to={'/'}><h4 style={styles.headerText}>{user.name!=''?`Hi, ${user.name}`:'Sign In'}</h4></Link>
+                    <Link to={'/'}><h4 style={styles.headerText}>{user.name!==''?`Hi, ${user.name}`:'Sign In'}</h4></Link>
                     <h4 style={styles.headerText} onClick={onHandleLogOut}>Log Out</h4>
                 </div>
             }

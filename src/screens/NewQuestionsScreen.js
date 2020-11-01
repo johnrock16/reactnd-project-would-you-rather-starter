@@ -22,8 +22,17 @@ const NewQuestionsScreen=()=>{
         setState((pv)=>({...pv,secondRather}))
     }
 
+    const clearFields = ()=>{
+        setState((pv)=>(initialState))
+    }
+
     const handleNewQuestion=async ()=>{
-        await _saveQuestion({author:userContext.user.id,optionOneText:firstRather,optionTwoText:secondRather})
+        if(firstRather && secondRather && firstRather.trim()!=='' && secondRather.trim!==''){
+            await _saveQuestion({author:userContext.user.id,optionOneText:firstRather,optionTwoText:secondRather});
+            clearFields();
+            return alert('question add with sucessfully!');
+        }
+        alert('complete all fields before submit a new question');
     }
 
     return(
@@ -35,9 +44,9 @@ const NewQuestionsScreen=()=>{
                 <div style={{display:'flex',flex:1,flexDirection:'column',backgroundColor:'white',justifyContent:'center'}}>
                     <h4>Complete the question:</h4>
                     <h3>Would you Rather?</h3>
-                    <input onChange={onFirstRatherHandlerChange}/>
+                    <input value={firstRather} onChange={onFirstRatherHandlerChange}/>
                     <h4>Or</h4>
-                    <input onChange={onSecondRatherHandlerChange}/>
+                    <input value={secondRather} onChange={onSecondRatherHandlerChange}/>
                     <button style={{minWidth:250,minHeight:30,background:'cyan', border:'none'}} onClick={handleNewQuestion}>Submit</button>
                 </div>
             </div>

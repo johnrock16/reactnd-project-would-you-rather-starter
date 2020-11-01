@@ -61,6 +61,3 @@ const SignInScreen= ()=>{
 }
 
 export default SignInScreen;
-
-const styles={
-}

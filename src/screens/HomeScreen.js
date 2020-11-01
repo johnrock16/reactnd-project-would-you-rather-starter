@@ -1,11 +1,12 @@
 import React, { useContext, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { UserContext } from '../context/UserContext';
-import { _getQuestions, _getUsers } from '../_DATA';
+import { _getQuestions, _getUsers} from '../_DATA';
 
 const initialState={
     answeredQuestions:[],
     unAnsweredQuestions:[],
+    users:[],
 }
 
 const HomeScreen=()=>{
@@ -13,54 +14,54 @@ const HomeScreen=()=>{
     const userContext = useContext(UserContext);
     const history= useHistory();
     
-    const {answeredQuestions,unAnsweredQuestions} = state;
+    const {answeredQuestions,unAnsweredQuestions,users} = state;
 
-    const getUsers= async()=>{
-        const questions=await _getQuestions();
-        const keysAnswers=Object.keys(userContext.user.answers)
-        const keysQuestions=Object.keys(questions)
-
-        let unAnsweredQuestions=keysQuestions.filter((item)=>(
-            keysAnswers.indexOf(item)==-1
-        ));
-        unAnsweredQuestions=unAnsweredQuestions.map((item)=>(
-            questions[item]
-        ));
-
-        let answeredQuestions=keysAnswers.map((item)=>(
-            questions[item]
-        ));
-
-        setState((pv)=>({...pv,unAnsweredQuestions:unAnsweredQuestions,answeredQuestions:answeredQuestions}));
-    }
-
-    const handleOnQuestion=(item,toAnswer)=>{
-        userContext.setQuestion({...item,toAnswer});
+    const handleOnQuestion=(item,toAnswer,avatarURL)=>{
+        userContext.setQuestion({...item,toAnswer,avatarURL});
         history.push('/answer')
     }
 
     React.useEffect(()=>{
-        getUsers();
-    },[]);
+        _getQuestions().then((questions)=>{
+            const keysAnswers=Object.keys(userContext.user.answers)
+            const keysQuestions=Object.keys(questions)
+
+            let unAnsweredQuestions=keysQuestions.filter((item)=>(
+                keysAnswers.indexOf(item)===-1
+            ));
+            unAnsweredQuestions=unAnsweredQuestions.map((item)=>(
+                questions[item]
+            ));
+
+            let answeredQuestions=keysAnswers.map((item)=>(
+                questions[item]
+            ));
+
+            setState((pv)=>({...pv,unAnsweredQuestions:unAnsweredQuestions,answeredQuestions:answeredQuestions}));
+        })
+        _getUsers().then((users)=>{
+            setState((pv)=>({...pv,users}));
+        })
+    },[userContext.user.answers]);
 
     return(
-        <div style={{display:'flex',flexDirection:'column',justifyContent:'center',alignItems:'center',flex:1}}>
-            <h1>UnAnswered Questions</h1>
-            <div>
+        <div style={{display:'flex',flexDirection:'row',justifyContent:'center'}}>
+            <div style={{display:'flex',flexDirection:'column',margin:20}}>
+                <h1>UnAnswered Questions</h1>
                 {
-                    (typeof unAnsweredQuestions!=='undefined' && unAnsweredQuestions.length>0) &&(
+                    (Object.keys(users).length>0 && typeof unAnsweredQuestions!=='undefined' && unAnsweredQuestions.length>0) &&(
                         unAnsweredQuestions.map((item)=>(
-                            <CardHome author={item.author} option={item.optionOne.text} onGo={()=>handleOnQuestion(item,true)}/>
+                            <CardHome author={item.author} image={users[item.author].avatarURL} option={item.optionOne.text} onGo={()=>handleOnQuestion(item,true,users[item.author].avatarURL)}/>
                         ))
                     )
                 }
             </div>
-            <h1>Answered Questions</h1>
-            <div>
+            <div style={{display:'flex',flexDirection:'column',margin:20}}>
+                <h1>Answered Questions</h1>
                 {
-                    (typeof answeredQuestions!=='undefined' && answeredQuestions.length>0) &&(
+                    (Object.keys(users).length>0 && typeof answeredQuestions!=='undefined' && answeredQuestions.length>0) &&(
                         answeredQuestions.map((item)=>(
-                            <CardHome author={item.author} option={item.optionOne.text} onGo={()=>handleOnQuestion(item,false)}/>
+                            <CardHome author={item.author} image={users[item.author].avatarURL} option={item.optionOne.text} onGo={()=>handleOnQuestion(item,false,users[item.author].avatarURL)}/>
                         ))
                     )
                 }
@@ -69,13 +70,13 @@ const HomeScreen=()=>{
     )
 }
 
-const CardHome=({author,option,onGo})=>{
+const CardHome=({author,option,onGo,image})=>{
     return(
-        <div style={{display:'flex',flexDirection:'column', border:'solid',borderWidth:1,justifyContent:'center',alignItems:'center',maxWidth:500}}>
+        <div style={{display:'flex',flexDirection:'column', border:'solid',borderWidth:1,justifyContent:'center',alignItems:'center',maxWidth:500,marginBottom:40}}>
             <h1>{author}</h1>
             <div style={{display:'flex'}}>
                 <div style={{display:'flex',alignItems:'center',justifyContent:'center', border:'solid',borderWidth:1}}>
-                    <div style={{display:'flex',height:150,width:150,borderRadius:120,backgroundImage:'URL("https://cdn.vox-cdn.com/thumbor/PEJ0cEDEGZRndtWvPb334IUEkBc=/0x0:1920x1080/1200x675/filters:focal(761x281:1067x587)/cdn.vox-cdn.com/uploads/chorus_image/image/53744541/Zelda_Switch_21.0.jpg")'}}/>
+                    <div style={{display:'flex',height:150,width:150,borderRadius:120,backgroundPosition:'center center',backgroundColor:'black',backgroundSize:'cover',backgroundImage:`url(${image})`}}/>
                 </div>
                 <div style={{border:'solid',borderWidth:1}}>
                     <h1 style={{textAlign:'center'}}>{'Would you rather?'}</h1>

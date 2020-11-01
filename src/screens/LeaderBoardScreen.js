@@ -25,17 +25,18 @@ const LeaderBoardScreen=()=>{
         <div style={{display:'flex', flexDirection:'column',flex:1,justifyContent:'center',alignItems:'center'}}>
            {
                (typeof mapusers!=='undefined' && mapusers.length>0) && (mapusers.map((item)=>(  
-                    <UserLeaderBoard key={users[item].id} name={users[item].name} questionNumber={users[item].questions.length} answerNumber={Object.keys(users[item].answers).length}/>
-                )))
+                    <UserLeaderBoard key={users[item].id} name={users[item].name} image={users[item].avatarURL} questionNumber={users[item].questions.length} answerNumber={Object.keys(users[item].answers).length}/>
+                )).sort((a, b) => (Object.keys(users[a.key].answers).length +users[a.key].questions.length> Object.keys(users[b.key].answers).length)+users[b.key].questions.length ? -1 : 1))
            }
         </div>
     )
 }
 
-const UserLeaderBoard=({name,answerNumber,questionNumber})=>(
+const UserLeaderBoard=({name,answerNumber,questionNumber,image})=>(
     <div style={{display:'flex', border:'solid',borderWidth:1,flexDirection:'row'}}>
         <div style={{display:'flex',alignItems:'center',justifyContent:'center'}}>
-            <div style={{display:'flex',height:150,width:150,borderRadius:120,backgroundImage:'URL("https://cdn.vox-cdn.com/thumbor/PEJ0cEDEGZRndtWvPb334IUEkBc=/0x0:1920x1080/1200x675/filters:focal(761x281:1067x587)/cdn.vox-cdn.com/uploads/chorus_image/image/53744541/Zelda_Switch_21.0.jpg")'}}/>
+            
+        <div style={{display:'flex',height:150,width:150,borderRadius:120,backgroundPosition:'center center',backgroundColor:'black',backgroundSize:'cover',backgroundImage:`url(${image})`}}/>
         </div>
         <div style={{border:'solid',borderWidth:1,minWidth:300}}>
             <h1 style={{textAlign:'center'}}>{name}</h1>
