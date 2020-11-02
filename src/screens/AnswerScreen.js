@@ -72,7 +72,7 @@ const RadioButton=({value,text,selected,onChange})=>(
 )
 
 const AnswerResults=({text,partial,total,isAnswerSelected})=>(
-    <div style={{border:'solid',borderWidth:1,backgroundColor:isAnswerSelected?'blue':'white'}}>
+    <div style={{border:'solid',borderWidth:1,backgroundColor:isAnswerSelected?'#59DBEB':'white'}}>
         <h3>{text}</h3>
         <ProgressBar bgcolor={'#00695c'} completed={partial>0?(100/(total/partial)):0} />
     </div>

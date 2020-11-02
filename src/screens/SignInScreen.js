@@ -45,8 +45,8 @@ const SignInScreen= ()=>{
                 </div>
                 <div style={{display:'flex',flex:1,flexDirection:'column',backgroundColor:'white',justifyContent:'center'}}>
                     <h3 style={{textAlign:'center',color:'cyan'}}> Sign In</h3>
-                    <select onChange={onSelect}>
-                        <option value="move" disabled>Move to...</option>
+                    <select value={selectedUser?selectedUser:'select'} onChange={onSelect}>
+                        <option value="select" disabled>Select a user...</option>
                         {
                             (typeof mapusers!=='undefined' && mapusers.length>0) && (mapusers.map((item)=>(  
                                 <option key={users[item].id} value={users[item].id}>{users[item].name}</option>

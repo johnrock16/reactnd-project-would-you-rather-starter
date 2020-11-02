@@ -14,13 +14,21 @@ const Header= ()=>{
     return(
         <div style={styles.headerContainer}>
             <div style={{display:'flex', paddingRight:40,justifyContent:'flex-start'}}>
-                <Link to={'/home'}><h4 style={styles.headerText}>Home</h4></Link>
-                <Link to={'/newQuestions'}><h4 style={styles.headerText}>New Questions</h4></Link>
-                <Link to={'/leaderBoard'}><h4 style={styles.headerText}>Leader Board</h4></Link>
+                <Link style={{textDecoration:'none',color:'black'}} to={'/home'}><h4 style={styles.headerText}>Home</h4></Link>
+                <Link style={{textDecoration:'none',color:'black'}} to={'/newQuestions'}><h4 style={styles.headerText}>New Questions</h4></Link>
+                <Link style={{textDecoration:'none',color:'black'}} to={'/leaderBoard'}><h4 style={styles.headerText}>Leader Board</h4></Link>
             </div>
             {
             (true)&& <div style={{display:'flex',}}>
-                    <Link to={'/'}><h4 style={styles.headerText}>{user.name!==''?`Hi, ${user.name}`:'Sign In'}</h4></Link>
+                    {
+                        (user.isLogged)?
+                        <div style={{display:'flex',alignItems:'center'}}>
+                            <div style={{display:'flex',height:50,width:50,borderRadius:120,backgroundPosition:'center center',backgroundColor:'black',backgroundSize:'cover',backgroundImage:`url(${user.avatarURL})`}}/>
+                            <h3>{`Hi, ${user.name}`}</h3>
+                        </div>
+                        :<Link style={{textDecoration:'none',color:'black'}} to={'/'}><h4 style={styles.headerText}>{'Sign In'}</h4></Link>
+                    }
+                    
                     <h4 style={styles.headerText} onClick={onHandleLogOut}>Log Out</h4>
                 </div>
             }
