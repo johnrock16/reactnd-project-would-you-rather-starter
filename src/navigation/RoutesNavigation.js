@@ -20,8 +20,8 @@ export const PrivateRoutes=()=>{
       <div>
         <PrivateRoute path={'/home'} component={HomeScreen} authed={authed}/>
         <PrivateRoute path={'/profile'} component={ProfileScreen} authed={authed}/>
-        <PrivateRoute path={'/newQuestions'} component={NewQuestionsScreen} authed={authed}/>
-        <PrivateRoute path={'/leaderBoard'} component={LeaderBoardScreen} authed={authed}/>
+        <PrivateRoute path={'/add'} component={NewQuestionsScreen} authed={authed}/>
+        <PrivateRoute path={'/leaderboard'} component={LeaderBoardScreen} authed={authed}/>
         <PrivateRoute path={'/answer'} component={AnswerScreen} authed={authed}/>
       </div>
     )

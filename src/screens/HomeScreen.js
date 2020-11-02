@@ -26,11 +26,13 @@ const HomeScreen=()=>{
             const keysAnswers=Object.keys(userContext.user.answers)
             const keysQuestions=Object.keys(questions)
 
-            let unAnsweredQuestions=keysQuestions.filter((item)=>(keysAnswers.indexOf(item)===-1));
-            unAnsweredQuestions=unAnsweredQuestions.map((item)=>(questions[item]));
-            let answeredQuestions=keysAnswers.map((item)=>(questions[item]));
-
-            setState((pv)=>({...pv,unAnsweredQuestions:unAnsweredQuestions,answeredQuestions:answeredQuestions}));
+            const unAnsweredQuestions=keysQuestions.filter((item)=>(keysAnswers.indexOf(item)===-1))
+            .map((item)=>(questions[item]))
+            .sort((a,b)=>(a.timestamp<b.timestamp?1:-1))
+            const answeredQuestions=keysAnswers.map((item)=>(questions[item]))
+            .sort((a,b)=>(a.timestamp<b.timestamp?1:-1))
+            
+            setState((pv)=>({...pv,unAnsweredQuestions,answeredQuestions}));
         })
         _getUsers().then((users)=>{
             setState((pv)=>({...pv,users}));
