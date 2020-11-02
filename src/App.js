@@ -1,7 +1,7 @@
 import Header from "./components/Header";
 import {UserContextProvider } from "./context/UserContext";
 import {BrowserRouter} from 'react-router-dom';
-import {PrivateRoutes, PublicRoutes} from "./navigation/RoutesNavigation";
+import {AppRoutes} from "./navigation/RoutesNavigation";
 
 const App=()=>{
   return (
@@ -9,8 +9,7 @@ const App=()=>{
       <div className="App">
         <UserContextProvider>
           <Header/>
-          <PublicRoutes/>
-          <PrivateRoutes/>
+          <AppRoutes/>
         </UserContextProvider>
       </div>
     </BrowserRouter>

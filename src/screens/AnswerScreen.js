@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import ProgressBar from '../components/ProgressBar';
+import { useHistory } from 'react-router-dom';
 import { UserContext } from '../context/UserContext';
 import { _saveQuestionAnswer } from '../_DATA'
 
@@ -11,8 +11,8 @@ const AnswerScreen=()=>{
     const [state,setState] = useState(initialState);
     const {selectedAnswer} = state;
     const userContext = useContext(UserContext);
-    const {author,id,optionOne,optionTwo, toAnswer,avatarURL} = userContext.selectedQuestion;
-    const totalAnswers=optionOne.votes.length + optionTwo.votes.length;
+    const {author,id,optionOne,optionTwo,avatarURL} = userContext.selectedQuestion;
+    const history= useHistory();
 
     const onHandleChange=(event)=> {
         const value=event.target.value;
@@ -23,6 +23,7 @@ const AnswerScreen=()=>{
         if(selectedAnswer!==''){
             _saveQuestionAnswer({authedUser:userContext.user.id,qid:id,answer:selectedAnswer})
             userContext.addAnswer(id,selectedAnswer);
+            history.push(`questions/${id}`)
             return;
         }
         alert('Please select one option before submit your answer');
@@ -36,26 +37,15 @@ const AnswerScreen=()=>{
                     <div style={{display:'flex',alignItems:'center',justifyContent:'center', border:'solid',borderWidth:1}}>  
                         <div style={{display:'flex',height:150,width:150,borderRadius:120,backgroundPosition:'center center',backgroundColor:'black',backgroundSize:'cover',backgroundImage:`url(${avatarURL})`}}/>
                     </div>
-                    
                     <div style={{border:'solid',borderWidth:1}}>
-                    {
-                        (toAnswer) ?(
-                            <div>
-                                <h1 style={{textAlign:'center'}}>{'Would you rather?'}</h1>
-                                <div style={{display:'flex',flexDirection:'column'}}>
-                                    <RadioButton text={optionOne.text} value={'optionOne'} selected={selectedAnswer} onChange={onHandleChange}/>
-                                    <RadioButton text={optionTwo.text} value={'optionTwo'} selected={selectedAnswer} onChange={onHandleChange}/>
-                                </div>
-                                <button style={{minWidth:250,minHeight:30,background:'cyan', border:'none'}} onClick={onHandleSubmit}>Submit</button>
-                           </div>
-                        ):(
-                            <div>
-                                <h1>Result:</h1>
-                                <AnswerResults isAnswerSelected={optionOne.votes.indexOf(userContext.user.id)>-1} text={optionOne.text} partial={optionOne.votes.length} total={totalAnswers}/>
-                                <AnswerResults isAnswerSelected={optionTwo.votes.indexOf(userContext.user.id)>-1} text={optionTwo.text} partial={optionTwo.votes.length} total={totalAnswers}/>
+                        <div>
+                            <h1 style={{textAlign:'center'}}>{'Would you rather?'}</h1>
+                            <div style={{display:'flex',flexDirection:'column'}}>
+                                <RadioButton text={optionOne.text} value={'optionOne'} selected={selectedAnswer} onChange={onHandleChange}/>
+                                <RadioButton text={optionTwo.text} value={'optionTwo'} selected={selectedAnswer} onChange={onHandleChange}/>
                             </div>
-                        )
-                    }
+                            <button style={{minWidth:250,minHeight:30,background:'cyan', border:'none'}} onClick={onHandleSubmit}>Submit</button>
+                        </div>
                      </div>
                 </div>
             </div>
@@ -69,11 +59,4 @@ const RadioButton=({value,text,selected,onChange})=>(
         <input type="radio" value={value} checked={selected===value} onChange={onChange}/>
         <label className="k-radio-label">{text}</label>
     </div>
-)
-
-const AnswerResults=({text,partial,total,isAnswerSelected})=>(
-    <div style={{border:'solid',borderWidth:1,backgroundColor:isAnswerSelected?'#59DBEB':'white'}}>
-        <h3>{text}</h3>
-        <ProgressBar fillerColor={'#00695c'} progress={partial>0?(100/(total/partial)):0} />
-    </div>
-)
+);

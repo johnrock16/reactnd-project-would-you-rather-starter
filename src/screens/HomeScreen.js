@@ -7,6 +7,7 @@ const initialState={
     answeredQuestions:[],
     unAnsweredQuestions:[],
     users:[],
+    toogleQuestions:true,
 }
 
 const HomeScreen=()=>{
@@ -14,11 +15,16 @@ const HomeScreen=()=>{
     const userContext = useContext(UserContext);
     const history= useHistory();
     
-    const {answeredQuestions,unAnsweredQuestions,users} = state;
+    const {answeredQuestions,unAnsweredQuestions,users,toogleQuestions} = state;
 
     const handleOnQuestion=(item,toAnswer,avatarURL)=>{
         userContext.setQuestion({...item,toAnswer,avatarURL});
-        history.push('/answer')
+        const goTo=(toogleQuestions)?'/answer':`/questions/${item.id}`
+        history.push(goTo)
+    }
+
+    const onHandleToogle=(v)=>{
+        setState((pv)=>({...pv,toogleQuestions:v}))
     }
 
     React.useEffect(()=>{
@@ -40,20 +46,20 @@ const HomeScreen=()=>{
     },[userContext.user.answers]);
 
     return(
-        <div style={{display:'flex',flexDirection:'row',justifyContent:'center'}}>
+        <div style={{display:'flex',flexDirection:'row',justifyContent:'center'}}>      
             <div style={{display:'flex',flexDirection:'column',margin:20}}>
-                <h1>UnAnswered Questions</h1>
+                <div style={{display:'flex'}}>
+                    <button style={{minWidth:250,minHeight:30,background:(toogleQuestions)?'cyan':'gray', border:'none'}} onClick={()=>{onHandleToogle(true)}}>UnAnswered Questions</button>
+                    <button style={{minWidth:250,minHeight:30,background:(!toogleQuestions)?'cyan':'gray', border:'none'}} onClick={()=>{onHandleToogle(false)}}>Answered Questions</button>
+                </div>
                 {
+                    (toogleQuestions)?
                     (Object.keys(users).length>0 && typeof unAnsweredQuestions!=='undefined' && unAnsweredQuestions.length>0) &&(
                         unAnsweredQuestions.map((item,index)=>(
                             <CardHome key={`UnAnsweredQuestions${index}`} author={item.author} image={users[item.author].avatarURL} option={item.optionOne.text} onGo={()=>handleOnQuestion(item,true,users[item.author].avatarURL)}/>
                         ))
                     )
-                }
-            </div>
-            <div style={{display:'flex',flexDirection:'column',margin:20}}>
-                <h1>Answered Questions</h1>
-                {
+                    :
                     (Object.keys(users).length>0 && typeof answeredQuestions!=='undefined' && answeredQuestions.length>0) &&(
                         answeredQuestions.map((item,index)=>(
                             <CardHome key={`AnsweredQuestions${index}`} author={item.author} image={users[item.author].avatarURL} option={item.optionOne.text} onGo={()=>handleOnQuestion(item,false,users[item.author].avatarURL)}/>

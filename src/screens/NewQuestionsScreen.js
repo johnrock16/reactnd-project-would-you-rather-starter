@@ -1,6 +1,8 @@
 import React, { useContext, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { UserContext } from '../context/UserContext';
 import { _saveQuestion } from '../_DATA'
+
 
 const initialState={
     firstRather:'',
@@ -10,6 +12,7 @@ const initialState={
 const NewQuestionsScreen=()=>{
     const [state,setState] = useState(initialState);
     const userContext = useContext(UserContext);
+    const history=useHistory();
     const {firstRather,secondRather} = state;
     
     const onFirstRatherHandlerChange=(event)=>{
@@ -22,15 +25,11 @@ const NewQuestionsScreen=()=>{
         setState((pv)=>({...pv,secondRather}))
     }
 
-    const clearFields = ()=>{
-        setState((pv)=>(initialState))
-    }
-
     const handleNewQuestion=async ()=>{
         if(firstRather && secondRather && firstRather.trim()!=='' && secondRather.trim!==''){
             await _saveQuestion({author:userContext.user.id,optionOneText:firstRather,optionTwoText:secondRather});
-            clearFields();
-            return alert('question add with sucessfully!');
+            history.push('/home');
+            return;
         }
         alert('complete all fields before submit a new question');
     }

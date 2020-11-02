@@ -16,7 +16,7 @@ const Header= ()=>{
             <div style={{display:'flex', paddingRight:40,justifyContent:'flex-start'}}>
                 <Link style={{textDecoration:'none',color:'black'}} to={'/home'}><h4 style={styles.headerText}>Home</h4></Link>
                 <Link style={{textDecoration:'none',color:'black'}} to={'/add'}><h4 style={styles.headerText}>New Questions</h4></Link>
-                <Link style={{textDecoration:'none',color:'black'}} to={'/leaderBoard'}><h4 style={styles.headerText}>Leader Board</h4></Link>
+                <Link style={{textDecoration:'none',color:'black'}} to={'/leaderboard'}><h4 style={styles.headerText}>Leader Board</h4></Link>
             </div>
             {
             (true)&& <div style={{display:'flex',}}>
