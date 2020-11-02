@@ -18,5 +18,8 @@ npm install
 npm start
 ```
 
+## Recommendation
+Before you start. I recommend open DATA.js and fill avatar URL field with an image URL on users constant.
+
 ## Contributing
 This project doesn't accept contribuittions

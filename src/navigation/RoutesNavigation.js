@@ -15,14 +15,14 @@ export const PublicRoutes=()=>(
 
 export const PrivateRoutes=()=>{
     const userContext=useContext(UserContext);
-    const authed=userContext.user.isLogged
+    const isAuth=userContext.user.isLogged
     return(
       <div>
-        <PrivateRoute path={'/home'} component={HomeScreen} authed={authed}/>
-        <PrivateRoute path={'/profile'} component={ProfileScreen} authed={authed}/>
-        <PrivateRoute path={'/add'} component={NewQuestionsScreen} authed={authed}/>
-        <PrivateRoute path={'/leaderboard'} component={LeaderBoardScreen} authed={authed}/>
-        <PrivateRoute path={'/answer'} component={AnswerScreen} authed={authed}/>
+        <PrivateRoute path={'/home'} component={HomeScreen} isAuth={isAuth}/>
+        <PrivateRoute path={'/profile'} component={ProfileScreen} isAuth={isAuth}/>
+        <PrivateRoute path={'/add'} component={NewQuestionsScreen} isAuth={isAuth}/>
+        <PrivateRoute path={'/leaderboard'} component={LeaderBoardScreen} isAuth={isAuth}/>
+        <PrivateRoute path={'/answer'} component={AnswerScreen} isAuth={isAuth}/>
       </div>
     )
 }
