@@ -1,6 +1,8 @@
 import React, { useContext, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { UserContext } from '../context/UserContext';
+import { actionsUsers } from '../reducer/actions/actionsUsers';
 import { _getQuestions, _getUsers} from '../_DATA';
 
 const initialState={
@@ -12,10 +14,13 @@ const initialState={
 
 const HomeScreen=()=>{
     const [state,setState] = useState(initialState);
+    const stateUser = useSelector(state=>state.UsersReducer);
+    const dispatchUser = useDispatch(state.UsersReducer);
     const userContext = useContext(UserContext);
     const history= useHistory();
     
-    const {answeredQuestions,unAnsweredQuestions,users,toogleQuestions} = state;
+    const {answeredQuestions,unAnsweredQuestions,toogleQuestions} = state;
+    const {users} = stateUser;
 
     const handleOnQuestion=(item,toAnswer,avatarURL)=>{
         userContext.setQuestion({...item,toAnswer,avatarURL});
@@ -41,9 +46,9 @@ const HomeScreen=()=>{
             setState((pv)=>({...pv,unAnsweredQuestions,answeredQuestions}));
         })
         _getUsers().then((users)=>{
-            setState((pv)=>({...pv,users}));
+            dispatchUser(actionsUsers.getUpdatedUsers(users))
         })
-    },[userContext.user.answers]);
+    },[dispatchUser,userContext.user.answers]);
 
     return(
         <div style={{display:'flex',flexDirection:'row',justifyContent:'center'}}>      

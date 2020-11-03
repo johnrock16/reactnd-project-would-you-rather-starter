@@ -1,0 +1,6 @@
+export const actionTypes={
+    SET_USER:'SET_USER',
+    CLEAR_USER:'CLEAR_USER',
+    SET_QUESTION:'SET_QUESTION',
+    ADD_ANSWER:'ADD_ANSWER',
+}

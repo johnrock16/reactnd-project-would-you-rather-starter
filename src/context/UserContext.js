@@ -1,29 +1,32 @@
-import React, { createContext,useReducer } from 'react';
+import React, { createContext } from 'react';
 import { useHistory } from 'react-router-dom';
-import { UserReducer, userReducerDefaultValue } from '../reducer/UserReducer';
+import { userReducerDefaultValue } from '../reducer/reducers/UserReducer';
+import {useSelector,useDispatch} from 'react-redux';
+import { actionsUser } from '../reducer/actions/actionsUser';
 
 export const UserContext = createContext(userReducerDefaultValue);
 
-export const UserContextProvider = ({children})=>{
-    const [state,dispatch] = useReducer(UserReducer,userReducerDefaultValue);
+const UserContextProvider = ({children})=>{
+    const state = useSelector(state=>state.UserReducer);
+    const dispatch = useDispatch(state.UserReducer);
     const history= useHistory();
     const {user,selectedQuestion} = state;
 
     const userSignIn=(newUserData)=>{
-        dispatch({type: 'setUser', payload: {...newUserData,isLogged:true}})
+        dispatch(actionsUser.setUser({...newUserData,isLogged:true}))
     }
 
     const addAnswer=(key,answer)=>{
-        dispatch({type: 'addAnswer', payload: {key,answer}})
+        dispatch(actionsUser.addAnswer({key,answer}))
     }
 
     const clearUser=()=>{
         history.push('/')
-        dispatch({type: 'clearuser'})
+        dispatch(actionsUser.clearUser())
     }
 
     const setQuestion=(newQuestion)=>{
-        dispatch({type: 'setQuestion', payload: newQuestion})
+        dispatch(actionsUser.setQuestion(newQuestion))
     }
 
     return(
@@ -32,3 +35,4 @@ export const UserContextProvider = ({children})=>{
         </UserContext.Provider>
     )
 }
+export default UserContextProvider;

@@ -1,25 +1,18 @@
-import React, { useState } from 'react';
+import React from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import { actionsUsers } from '../reducer/actions/actionsUsers';
 import { _getUsers } from '../_DATA';
 
-const initialState={
-    users:{},
-    mapusers:[],
-}
-
 const LeaderBoardScreen=()=>{
-
-    const [state,setState] = useState(initialState);
+    const state = useSelector(state=>state.UsersReducer);
+    const dispatch = useDispatch(state.UsersReducer);
     const {users,mapusers} = state;
 
-    const getUsers= async()=>{
-        const users=await _getUsers();
-        const mapusers=Object.keys(users)
-        setState((pv)=>({...pv,users,mapusers}))
-    }
-
     React.useEffect(()=>{
-        getUsers();
-    },[])
+        _getUsers().then((users)=>{
+            dispatch(actionsUsers.getUpdatedUsers(users))
+        })
+    },[dispatch])
 
     return(
         <div style={{display:'flex', flexDirection:'column',flex:1,justifyContent:'center',alignItems:'center'}}>

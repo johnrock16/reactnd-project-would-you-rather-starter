@@ -1,16 +1,18 @@
-export const UserReducer=(state, action)=>{
+import { actionTypes } from '../constants/userConstants'
+
+export const UserReducer=(state=userReducerDefaultValue, action)=>{
   switch (action.type) {
-    case 'setUser':
+    case actionTypes.SET_USER:
       return { ...state, user: action.payload };
-    case 'clearuser':
+    case actionTypes.CLEAR_USER:
       return { ...state, user:userReducerDefaultValue.user};
-    case 'setQuestion':
+    case actionTypes.SET_QUESTION:
       return {...state,selectedQuestion:action.payload};
-     case 'addAnswer':
+     case actionTypes.ADD_ANSWER:
       const {key,answer} = action.payload;
       return{...state,user:{...state.user,answers:{...state.user.answers,[key]:answer}},selectedQuestion:{...state.selectedQuestion,[answer]:{...state.selectedQuestion[answer],votes:[...state.selectedQuestion[answer].votes,state.user.id]},toAnswer:false}}
     default:
-      throw new Error();
+      return state;
   }
 }
 

@@ -1,29 +1,20 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { UserContext } from '../context/UserContext';
-import { _getUsers } from '../_DATA';
 import { useHistory } from "react-router-dom";
-
-const initialState={
-    users:{},
-    mapusers:[],
-    selectedUser:''
-}
+import { useDispatch, useSelector } from 'react-redux';
+import { _getUsers} from '../_DATA';
+import { actionsUsers } from '../reducer/actions/actionsUsers';
 
 const SignInScreen= ()=>{
-    const [state,setState] = useState(initialState);
+    const state = useSelector(state=>state.UsersReducer);
+    const dispatch = useDispatch(state.UsersReducer);
     const userContext = useContext(UserContext);
     const history = useHistory();
     const {users,mapusers,selectedUser} = state;
 
-    const getUsers= async()=>{
-        const users=await _getUsers();
-        const mapusers=Object.keys(users);
-        setState((pv)=>({...pv,users,mapusers}))
-    }
-
     const onSelect=(event)=>{
         const selectedUser=event.target.value;
-        setState((pv)=>({...pv,selectedUser}))
+        dispatch(actionsUsers.setSelectedUser(selectedUser))
     }
 
     const onSignUp=()=>{
@@ -34,8 +25,10 @@ const SignInScreen= ()=>{
     }
 
     React.useEffect(()=>{
-        getUsers()
-    },[])
+        _getUsers().then((users)=>{
+            dispatch(actionsUsers.getUpdatedUsers(users))
+        })
+    },[dispatch])
     return(
         <div style={{display:'flex',flex:1,justifyContent:'center'}}>
             <div style={{ border:'solid',borderWidth:1,}}>
