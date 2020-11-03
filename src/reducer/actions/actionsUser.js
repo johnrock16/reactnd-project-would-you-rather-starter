@@ -10,8 +10,8 @@ export const actionsUser={
         type: 'SET_QUESTION',
         payload: newQuestion
     }),
-    addAnswer:(answer)=>({
+    addAnswer:(key,answer)=>({
         type: 'ADD_ANSWER',
-        payload:answer
+        payload:{key,answer}
     })
 }

@@ -1,14 +1,14 @@
-import React, { useContext } from 'react';
-import { UserContext } from '../context/UserContext';
+import React from 'react';
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { _getUsers} from '../_DATA';
 import { actionsUsers } from '../reducer/actions/actionsUsers';
+import { actionsUser } from '../reducer/actions/actionsUser';
 
 const SignInScreen= ()=>{
     const state = useSelector(state=>state.UsersReducer);
     const dispatch = useDispatch(state.UsersReducer);
-    const userContext = useContext(UserContext);
+    const dispatchUser = useDispatch(state.UserReducer);
     const history = useHistory();
     const {users,mapusers,selectedUser} = state;
 
@@ -19,7 +19,8 @@ const SignInScreen= ()=>{
 
     const onSignUp=()=>{
         if(mapusers.indexOf(selectedUser)>-1){
-            userContext.userSignIn(users[selectedUser])
+            dispatchUser(actionsUser.setUser({...users[selectedUser],isLogged:true}))
+            // userContext.userSignIn(users[selectedUser])
             history.push('/home');
         }
     }

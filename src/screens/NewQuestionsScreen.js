@@ -1,6 +1,6 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { UserContext } from '../context/UserContext';
 import { _saveQuestion } from '../_DATA'
 
 
@@ -11,7 +11,7 @@ const initialState={
 
 const NewQuestionsScreen=()=>{
     const [state,setState] = useState(initialState);
-    const userContext = useContext(UserContext);
+    const stateUser = useSelector(state=>state.UserReducer);
     const history=useHistory();
     const {firstRather,secondRather} = state;
     
@@ -27,7 +27,7 @@ const NewQuestionsScreen=()=>{
 
     const handleNewQuestion=async ()=>{
         if(firstRather && secondRather && firstRather.trim()!=='' && secondRather.trim!==''){
-            await _saveQuestion({author:userContext.user.id,optionOneText:firstRather,optionTwoText:secondRather});
+            await _saveQuestion({author:stateUser.user.id,optionOneText:firstRather,optionTwoText:secondRather});
             history.push('/home');
             return;
         }

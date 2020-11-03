@@ -1,6 +1,7 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { UserContext } from '../context/UserContext';
+import { actionsUser } from '../reducer/actions/actionsUser';
 import { _saveQuestionAnswer } from '../_DATA'
 
 const initialState={
@@ -9,9 +10,10 @@ const initialState={
 
 const AnswerScreen=()=>{
     const [state,setState] = useState(initialState);
+    const stateUser = useSelector(state=>state.UserReducer);
+    const dispatchUser = useDispatch(stateUser.UserReducer);
     const {selectedAnswer} = state;
-    const userContext = useContext(UserContext);
-    const {author,id,optionOne,optionTwo,avatarURL} = userContext.selectedQuestion;
+    const {author,id,optionOne,optionTwo,avatarURL} = stateUser.selectedQuestion;
     const history= useHistory();
 
     const onHandleChange=(event)=> {
@@ -21,8 +23,8 @@ const AnswerScreen=()=>{
 
     const onHandleSubmit=()=>{
         if(selectedAnswer!==''){
-            _saveQuestionAnswer({authedUser:userContext.user.id,qid:id,answer:selectedAnswer})
-            userContext.addAnswer(id,selectedAnswer);
+            _saveQuestionAnswer({authedUser:stateUser.user.id,qid:id,answer:selectedAnswer})
+            dispatchUser(actionsUser.addAnswer(id,selectedAnswer))
             history.push(`questions/${id}`)
             return;
         }

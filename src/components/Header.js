@@ -1,14 +1,16 @@
-import React, { useContext } from 'react';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { UserContext } from '../context/UserContext';
+import { actionsUser } from '../reducer/actions/actionsUser';
 
 const Header= ()=>{
     
-    const userContext= useContext(UserContext);
-    const {user} = userContext;
+    const stateUser = useSelector(state=>state.UserReducer);
+    const dispatchUser = useDispatch(stateUser.UserReducer);
+    const {user} = stateUser;
 
     const onHandleLogOut=()=>{
-        userContext.clearUser();
+        dispatchUser(actionsUser.clearUser());
     }
     
     return(

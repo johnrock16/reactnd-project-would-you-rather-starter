@@ -1,10 +1,11 @@
-import React, { useContext } from 'react';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import ProgressBar from '../components/ProgressBar';
-import { UserContext } from '../context/UserContext';
 
 const PolScreen=()=>{
-    const userContext = useContext(UserContext);
-    const {author,optionOne,optionTwo,avatarURL} = userContext.selectedQuestion;
+    
+    const stateUser = useSelector(state=>state.UserReducer);
+    const {author,optionOne,optionTwo,avatarURL} = stateUser.selectedQuestion;
     const totalAnswers=optionOne.votes.length + optionTwo.votes.length;
 
     return(
@@ -19,8 +20,8 @@ const PolScreen=()=>{
                     <div style={{border:'solid',borderWidth:1}}>
                         <div>
                             <h1>Result:</h1>
-                            <AnswerResults isAnswerSelected={optionOne.votes.indexOf(userContext.user.id)>-1} text={optionOne.text} partial={optionOne.votes.length} total={totalAnswers}/>
-                            <AnswerResults isAnswerSelected={optionTwo.votes.indexOf(userContext.user.id)>-1} text={optionTwo.text} partial={optionTwo.votes.length} total={totalAnswers}/>
+                            <AnswerResults isAnswerSelected={optionOne.votes.indexOf(stateUser.user.id)>-1} text={optionOne.text} partial={optionOne.votes.length} total={totalAnswers}/>
+                            <AnswerResults isAnswerSelected={optionTwo.votes.indexOf(stateUser.user.id)>-1} text={optionTwo.text} partial={optionTwo.votes.length} total={totalAnswers}/>
                         </div>
                      </div>
                 </div>

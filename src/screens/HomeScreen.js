@@ -1,7 +1,7 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { UserContext } from '../context/UserContext';
+import { actionsUser } from '../reducer/actions/actionsUser';
 import { actionsUsers } from '../reducer/actions/actionsUsers';
 import { _getQuestions, _getUsers} from '../_DATA';
 
@@ -14,16 +14,17 @@ const initialState={
 
 const HomeScreen=()=>{
     const [state,setState] = useState(initialState);
-    const stateUser = useSelector(state=>state.UsersReducer);
-    const dispatchUser = useDispatch(state.UsersReducer);
-    const userContext = useContext(UserContext);
+    const stateUsers = useSelector(state=>state.UsersReducer);
+    const dispatchUsers = useDispatch(stateUsers.UsersReducer);
+    const stateUser = useSelector(state=>state.UserReducer);
+    const dispatchUser = useDispatch(stateUser.UserReducer);
     const history= useHistory();
     
     const {answeredQuestions,unAnsweredQuestions,toogleQuestions} = state;
-    const {users} = stateUser;
+    const {users} = stateUsers;
 
     const handleOnQuestion=(item,toAnswer,avatarURL)=>{
-        userContext.setQuestion({...item,toAnswer,avatarURL});
+        dispatchUser(actionsUser.setQuestion({...item,toAnswer,avatarURL}));
         const goTo=(toogleQuestions)?'/answer':`/questions/${item.id}`
         history.push(goTo)
     }
@@ -34,7 +35,7 @@ const HomeScreen=()=>{
 
     React.useEffect(()=>{
         _getQuestions().then((questions)=>{
-            const keysAnswers=Object.keys(userContext.user.answers)
+            const keysAnswers=Object.keys(stateUser.user.answers)
             const keysQuestions=Object.keys(questions)
 
             const unAnsweredQuestions=keysQuestions.filter((item)=>(keysAnswers.indexOf(item)===-1))
@@ -46,9 +47,9 @@ const HomeScreen=()=>{
             setState((pv)=>({...pv,unAnsweredQuestions,answeredQuestions}));
         })
         _getUsers().then((users)=>{
-            dispatchUser(actionsUsers.getUpdatedUsers(users))
+            dispatchUsers(actionsUsers.getUpdatedUsers(users))
         })
-    },[dispatchUser,userContext.user.answers]);
+    },[dispatchUsers,stateUser.user.answers]);
 
     return(
         <div style={{display:'flex',flexDirection:'row',justifyContent:'center'}}>      
