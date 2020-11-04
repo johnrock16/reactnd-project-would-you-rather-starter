@@ -1,9 +1,9 @@
 import React from 'react';
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
-import { _getUsers} from '../_DATA';
 import { actionsUsers } from '../reducer/actions/actionsUsers';
 import { actionsUser } from '../reducer/actions/actionsUser';
+import { userThunks } from '../reducer/thunk/users';
 
 const SignInScreen= ()=>{
     const state = useSelector(state=>state.UsersReducer);
@@ -26,9 +26,10 @@ const SignInScreen= ()=>{
     }
 
     React.useEffect(()=>{
-        _getUsers().then((users)=>{
-            dispatch(actionsUsers.getUpdatedUsers(users))
-        })
+        dispatch(userThunks.getAllUsers())
+        // _getUsers().then((users)=>{
+        //     dispatch(actionsUsers.getUpdatedUsers(users))
+        // })
     },[dispatch])
     return(
         <div style={{display:'flex',flex:1,justifyContent:'center'}}>

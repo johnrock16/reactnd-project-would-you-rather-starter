@@ -35,6 +35,7 @@ export default PolScreen;
 const AnswerResults=({text,partial,total,isAnswerSelected})=>(
     <div style={{border:'solid',borderWidth:1,backgroundColor:isAnswerSelected?'#59DBEB':'white'}}>
         <h3>{text}</h3>
+        <h4>votes: {partial}</h4>
         <ProgressBar fillerColor={'#00695c'} progress={partial>0?(100/(total/partial)):0} />
     </div>
 )

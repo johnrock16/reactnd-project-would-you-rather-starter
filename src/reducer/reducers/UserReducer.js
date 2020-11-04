@@ -8,7 +8,7 @@ export const UserReducer=(state=userReducerDefaultValue, action)=>{
       return { ...state, user:userReducerDefaultValue.user};
     case actionTypes.SET_QUESTION:
       return {...state,selectedQuestion:action.payload};
-     case actionTypes.ADD_ANSWER:
+    case actionTypes.ADD_ANSWER:
       const {key,answer} = action.payload;
       return{...state,user:{...state.user,answers:{...state.user.answers,[key]:answer}},selectedQuestion:{...state.selectedQuestion,[answer]:{...state.selectedQuestion[answer],votes:[...state.selectedQuestion[answer].votes,state.user.id]},toAnswer:false}}
     default:

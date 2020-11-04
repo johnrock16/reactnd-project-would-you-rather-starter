@@ -1,7 +1,6 @@
 import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import { actionsUsers } from '../reducer/actions/actionsUsers';
-import { _getUsers } from '../_DATA';
+import { userThunks } from '../reducer/thunk/users';
 
 const LeaderBoardScreen=()=>{
     const state = useSelector(state=>state.UsersReducer);
@@ -9,9 +8,7 @@ const LeaderBoardScreen=()=>{
     const {users,mapusers} = state;
 
     React.useEffect(()=>{
-        _getUsers().then((users)=>{
-            dispatch(actionsUsers.getUpdatedUsers(users))
-        })
+        dispatch(userThunks.getAllUsers())
     },[dispatch])
 
     return(

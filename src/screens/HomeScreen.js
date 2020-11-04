@@ -2,25 +2,25 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { actionsUser } from '../reducer/actions/actionsUser';
-import { actionsUsers } from '../reducer/actions/actionsUsers';
-import { _getQuestions, _getUsers} from '../_DATA';
+import { userThunks } from '../reducer/thunk/users';
+import { questionsThunks } from '../reducer/thunk/questions';
 
 const initialState={
-    answeredQuestions:[],
-    unAnsweredQuestions:[],
-    users:[],
     toogleQuestions:true,
 }
 
 const HomeScreen=()=>{
     const [state,setState] = useState(initialState);
+    const stateQuestions = useSelector(state=>state.QuestionsReducer);
+    const dispatchQuestions = useDispatch(stateQuestions.QuestionsReducer);
     const stateUsers = useSelector(state=>state.UsersReducer);
     const dispatchUsers = useDispatch(stateUsers.UsersReducer);
     const stateUser = useSelector(state=>state.UserReducer);
     const dispatchUser = useDispatch(stateUser.UserReducer);
     const history= useHistory();
     
-    const {answeredQuestions,unAnsweredQuestions,toogleQuestions} = state;
+    const {toogleQuestions} = state;
+    const {answeredQuestions,unAnsweredQuestions} = stateQuestions;
     const {users} = stateUsers;
 
     const handleOnQuestion=(item,toAnswer,avatarURL)=>{
@@ -34,22 +34,9 @@ const HomeScreen=()=>{
     }
 
     React.useEffect(()=>{
-        _getQuestions().then((questions)=>{
-            const keysAnswers=Object.keys(stateUser.user.answers)
-            const keysQuestions=Object.keys(questions)
-
-            const unAnsweredQuestions=keysQuestions.filter((item)=>(keysAnswers.indexOf(item)===-1))
-            .map((item)=>(questions[item]))
-            .sort((a,b)=>(a.timestamp<b.timestamp?1:-1))
-            const answeredQuestions=keysAnswers.map((item)=>(questions[item]))
-            .sort((a,b)=>(a.timestamp<b.timestamp?1:-1))
-            
-            setState((pv)=>({...pv,unAnsweredQuestions,answeredQuestions}));
-        })
-        _getUsers().then((users)=>{
-            dispatchUsers(actionsUsers.getUpdatedUsers(users))
-        })
-    },[dispatchUsers,stateUser.user.answers]);
+        dispatchUsers(userThunks.getAllUsers())
+        dispatchQuestions(questionsThunks.getAllQuestions(stateUser.user.answers))
+    },[dispatchUsers,dispatchQuestions,stateUser.user.answers]);
 
     return(
         <div style={{display:'flex',flexDirection:'row',justifyContent:'center'}}>      
