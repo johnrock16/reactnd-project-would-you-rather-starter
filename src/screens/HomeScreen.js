@@ -11,10 +11,13 @@ const initialState={
 
 const HomeScreen=()=>{
     const [state,setState] = useState(initialState);
+    
     const stateQuestions = useSelector(state=>state.QuestionsReducer);
     const dispatchQuestions = useDispatch(stateQuestions.QuestionsReducer);
+    
     const stateUsers = useSelector(state=>state.UsersReducer);
     const dispatchUsers = useDispatch(stateUsers.UsersReducer);
+
     const stateUser = useSelector(state=>state.UserReducer);
     const dispatchUser = useDispatch(stateUser.UserReducer);
     const history= useHistory();
@@ -34,8 +37,8 @@ const HomeScreen=()=>{
     }
 
     React.useEffect(()=>{
-        dispatchUsers(userThunks.getAllUsers())
         dispatchQuestions(questionsThunks.getAllQuestions(stateUser.user.answers))
+        dispatchUsers(userThunks.getAllUsers())
     },[dispatchUsers,dispatchQuestions,stateUser.user.answers]);
 
     return(
@@ -82,4 +85,4 @@ const CardHome=({author,option,onGo,image})=>{
     )
 }
 
-export default HomeScreen;
+export default React.memo(HomeScreen);

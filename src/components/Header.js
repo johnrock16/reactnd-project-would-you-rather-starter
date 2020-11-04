@@ -1,15 +1,17 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { actionsUser } from '../reducer/actions/actionsUser';
 
 const Header= ()=>{
     
     const stateUser = useSelector(state=>state.UserReducer);
     const dispatchUser = useDispatch(stateUser.UserReducer);
+    const history= useHistory();
     const {user} = stateUser;
 
     const onHandleLogOut=()=>{
+        history.push('/');
         dispatchUser(actionsUser.clearUser());
     }
     

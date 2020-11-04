@@ -6,7 +6,7 @@ const PrivateRoute= ({component: Component, isAuth, ...others})=>{
         {...others}
         render={(props) => isAuth
           ? <Component {...props}/>
-          : <Redirect to={{pathname:'/', state:{from: props.location}}}/>}
+          : <Redirect to={{pathname:'/errorauth', state:{from: props.location}}}/>}
       />
     );
 }
