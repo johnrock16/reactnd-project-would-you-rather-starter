@@ -1,9 +1,8 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 
-const ErrorAuthScreen=({isAuthed,error404})=>{
+const ErrorAuthScreen=()=>{
     const history= useHistory();
-    console.log(error404)
 
     const onSignUp=()=>{
         history.push('/');
