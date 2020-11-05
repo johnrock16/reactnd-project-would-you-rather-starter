@@ -1,6 +1,5 @@
 import { Route, Switch } from "react-router-dom";
 import PrivateRoute from "../components/PrivateRoute";
-import AnswerScreen from "../screens/AnswerScreen";
 import HomeScreen from "../screens/HomeScreen";
 import LeaderBoardScreen from "../screens/LeaderBoardScreen";
 import NewQuestionsScreen from "../screens/NewQuestionsScreen";
@@ -20,7 +19,6 @@ export const AppRoutes=()=>{
         <PrivateRoute path={'/add'} component={NewQuestionsScreen} isAuth={isLogged}/>
         <PrivateRoute path={'/questions/:question_id'} component={PolScreen} isAuth={isLogged}/>
         <PrivateRoute path={'/leaderboard'} component={LeaderBoardScreen} isAuth={isLogged}/>
-        <PrivateRoute path={'/answer'} component={AnswerScreen} isAuth={isLogged}/>
         <Route exact path={'/error404'} component={Error404Screen}/>
         <Route path={'/'} component={SignInScreen}/>
       </Switch>

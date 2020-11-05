@@ -28,8 +28,7 @@ const HomeScreen=()=>{
 
     const handleOnQuestion=(item,toAnswer,avatarURL)=>{
         dispatchUser(actionsUser.setQuestion({...item,toAnswer,avatarURL}));
-        const goTo=(toogleQuestions)?'/answer':`/questions/${item.id}`
-        history.push(goTo)
+        history.push(`/questions/${item.id}`);
     }
 
     const onHandleToogle=(v)=>{
