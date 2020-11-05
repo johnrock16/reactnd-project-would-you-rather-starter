@@ -1,4 +1,5 @@
-import { Redirect, Route } from "react-router-dom";
+import { Route } from "react-router-dom";
+import SignInScreen from "../screens/SignInScreen";
 
 const PrivateRoute= ({component: Component, isAuth, ...others})=>{
     return (
@@ -6,7 +7,7 @@ const PrivateRoute= ({component: Component, isAuth, ...others})=>{
         {...others}
         render={(props) => isAuth
           ? <Component {...props}/>
-          : <Redirect to={{pathname:'/errorauth', state:{from: props.location}}}/>}
+          : <SignInScreen redirectTo={others.location.pathname}/>}
       />
     );
 }

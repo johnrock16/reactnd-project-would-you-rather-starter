@@ -5,12 +5,14 @@ import { actionsUsers } from '../reducer/actions/actionsUsers';
 import { actionsUser } from '../reducer/actions/actionsUser';
 import { userThunks } from '../reducer/thunk/users';
 
-const SignInScreen= ()=>{
+const SignInScreen= ({redirectTo,location})=>{
     const state = useSelector(state=>state.UsersReducer);
     const dispatch = useDispatch(state.UsersReducer);
     const dispatchUser = useDispatch(state.UserReducer);
     const history = useHistory();
     const {users,mapusers,selectedUser} = state;
+
+    const goTo=redirectTo?redirectTo:'/home';
 
     const onSelect=(event)=>{
         const selectedUser=event.target.value;
@@ -20,17 +22,20 @@ const SignInScreen= ()=>{
     const onSignUp=()=>{
         if(mapusers.indexOf(selectedUser)>-1){
             dispatchUser(actionsUser.setUser({...users[selectedUser],isLogged:true}))
-            // userContext.userSignIn(users[selectedUser])
-            history.push('/home');
+            history.push(goTo);
         }
     }
 
     React.useEffect(()=>{
         dispatch(userThunks.getAllUsers())
-        // _getUsers().then((users)=>{
-        //     dispatch(actionsUsers.getUpdatedUsers(users))
-        // })
     },[dispatch])
+
+    React.useEffect(()=>{
+        if(redirectTo){
+            alert('Please, Sign In first')
+        }
+    },[redirectTo])
+
     return(
         <div style={{display:'flex',flex:1,justifyContent:'center'}}>
             <div style={{ border:'solid',borderWidth:1,}}>

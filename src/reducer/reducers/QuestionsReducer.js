@@ -21,7 +21,6 @@ export const QuestionsReducer=(state=questionsReducerDefaultValue, action)=>{
 }
 
 export const questionsReducerDefaultValue = {
-  questions: [],
   unAnsweredQuestions:[],
   answeredQuestions:[]
 }
