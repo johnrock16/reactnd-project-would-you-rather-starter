@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/reactnd-project-would-you-rather-starter/static/css/main.6dea0f05.chunk.css",
+    "main.js": "/reactnd-project-would-you-rather-starter/static/js/main.fdd01489.chunk.js",
+    "main.js.map": "/reactnd-project-would-you-rather-starter/static/js/main.fdd01489.chunk.js.map",
+    "runtime-main.js": "/reactnd-project-would-you-rather-starter/static/js/runtime-main.a084c482.js",
+    "runtime-main.js.map": "/reactnd-project-would-you-rather-starter/static/js/runtime-main.a084c482.js.map",
+    "static/js/2.952927ac.chunk.js": "/reactnd-project-would-you-rather-starter/static/js/2.952927ac.chunk.js",
+    "static/js/2.952927ac.chunk.js.map": "/reactnd-project-would-you-rather-starter/static/js/2.952927ac.chunk.js.map",
+    "static/js/3.004f9d3f.chunk.js": "/reactnd-project-would-you-rather-starter/static/js/3.004f9d3f.chunk.js",
+    "static/js/3.004f9d3f.chunk.js.map": "/reactnd-project-would-you-rather-starter/static/js/3.004f9d3f.chunk.js.map",
+    "index.html": "/reactnd-project-would-you-rather-starter/index.html",
+    "static/css/main.6dea0f05.chunk.css.map": "/reactnd-project-would-you-rather-starter/static/css/main.6dea0f05.chunk.css.map",
+    "static/js/2.952927ac.chunk.js.LICENSE.txt": "/reactnd-project-would-you-rather-starter/static/js/2.952927ac.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.a084c482.js",
+    "static/js/2.952927ac.chunk.js",
+    "static/css/main.6dea0f05.chunk.css",
+    "static/js/main.fdd01489.chunk.js"
+  ]
+}
